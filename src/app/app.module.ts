@@ -21,6 +21,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { DefaultErrorComponent } from './components/default-error/default-error.component';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     FooterComponent,
     TestComponent,
     HomeComponent,
-    DialogComponent
+    DialogComponent,
+    DefaultErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,8 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
   ],
   providers: [
     {provide: BASE_URL,useValue:(environment.baseUrl) || ''},
-    {provide: HTTP_INTERCEPTORS, useClass:JwtInterceptor,multi:true}
+    {provide: HTTP_INTERCEPTORS, useClass:JwtInterceptor,multi:true},
+    {provide: HTTP_INTERCEPTORS, useClass:ErrorInterceptor,multi:true}
   ],
   bootstrap: [AppComponent]
 })
