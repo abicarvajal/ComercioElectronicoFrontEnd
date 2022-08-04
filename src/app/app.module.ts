@@ -3,16 +3,51 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BrandComponent } from './components/brand/brand.component';
+import { ProductComponent } from './components/product/product.component';
+import { ProductTypeComponent } from './components/product-type/product-type.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { TestComponent } from './components/test/test.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatStepperModule} from '@angular/material/stepper';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HomeComponent } from './components/home/home.component';
+import { HttpClientModule } from '@angular/common/http';
+import { BASE_URL } from './models/constants';
+import { environment } from 'src/environments/environment';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { DialogComponent } from './components/dialog/dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    BrandComponent,
+    ProductComponent,
+    ProductTypeComponent,
+    NavBarComponent,
+    FooterComponent,
+    TestComponent,
+    HomeComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {provide: BASE_URL,useValue:(environment.baseUrl) || ''}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

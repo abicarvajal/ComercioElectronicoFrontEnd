@@ -1,0 +1,59 @@
+<div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <img src="assets/images/logo.jpg" alt="logo" class="" style="max-height: 70px;">
+    <nav class="my-2 my-md-0 mr-md-3">
+      <a class="p-2 text-dark" routerLink="/">Home</a>
+      <a class="p-2 text-dark" routerLink="/brand">Brands</a>
+      <a class="p-2 text-dark" routerLink="/product">Products</a>
+      <a class="p-2 text-dark" routerLink="/product-type">Product Types</a>
+      <a class="p-2 text-dark" href="#">Contact us</a>
+    </nav>
+
+    <div class="d-flex align-items-center">
+        <a class="position-relative">
+            <i class="fa fa-shopping-cart fa-2x mr-5 text-dark"></i>
+            <div class="cart-no">5</div>
+        </a>
+    </div>
+    <a class="btn btn-outline-primary" (click)="login(content)">Log in</a>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Login</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div class="center_form">
+            <form id="brandForm" [formGroup]="formulario" (ngSubmit)="tryLogin(content)">
+                <div class="form-group">
+                    <label for="userName">User:</label>
+                    <input type="text" formControlName="userName" id="userName" class="form-control"/>
+                    <div *ngIf="formulario.controls['userName'].invalid && (formulario.controls['userName'].dirty || formulario.controls['userName'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['userName'].errors?.['required']">
+                            User is required!
+                        </small>
+                        <small class="text-danger" *ngIf="formulario.controls['userName'].errors?.['minlength']">
+                            Max length: {{formulario.controls['userName'].errors?.['minlength'].requiredLength}}
+                        </small>
+                    </div>
+                </div>
+          
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" formControlName="password" id="password" class="form-control"/>
+                    <div *ngIf="formulario.controls['password'].invalid && (formulario.controls['password'].dirty || formulario.controls['password'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['password'].errors?.['required']">
+                            Password is required!
+                        </small>
+                    </div>
+          
+                </div>
+                <br>
+            <div>
+              <button class="btn btn-secondary" type="button" (click)="modal.close('Save click')">Cancel</button>
+              <button class="btn btn-primary" type="submit">Send</button>
+            </div>
+            </form>
+        </div>
+    </div>
+  </ng-template>
