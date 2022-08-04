@@ -14,12 +14,13 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/home/home.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BASE_URL } from './models/constants';
 import { environment } from 'src/environments/environment';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     HttpClientModule
   ],
   providers: [
-    {provide: BASE_URL,useValue:(environment.baseUrl) || ''}
+    {provide: BASE_URL,useValue:(environment.baseUrl) || ''},
+    {provide: HTTP_INTERCEPTORS, useClass:JwtInterceptor,multi:true}
   ],
   bootstrap: [AppComponent]
 })

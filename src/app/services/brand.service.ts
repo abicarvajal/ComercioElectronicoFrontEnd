@@ -10,6 +10,7 @@ import { __param } from 'tslib';
 })
 export class BrandService {
   endpoint:string = ''
+  headers = new HttpHeaders().set('Content-Type','application/json');
 
   constructor(private http: HttpClient, @Inject(BASE_URL) endpoint:string) {
     this.endpoint = endpoint;

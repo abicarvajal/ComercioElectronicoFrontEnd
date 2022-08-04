@@ -17,9 +17,10 @@ export class LoginService {
     let apiUrl = `${this.endpoint}/api/Token`;
     this.http.post(apiUrl,data,{responseType: 'text'}).pipe(catchError(this.error)).subscribe(data=>{
       console.log(data);
+      localStorage.setItem('token',data);
     });
   }
-  
+
   error(error: HttpErrorResponse){
     let errorMessage = '';
     if(error.error instanceof ErrorEvent){
