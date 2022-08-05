@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Brand } from '../models/brand';
 import { BASE_URL } from '../models/constants';
 import { __param } from 'tslib';
@@ -29,16 +29,15 @@ export class BrandService {
   createBrand(data: any):Observable<any>{
     let result;
     let apiUrl = `${this.endpoint}/api/Brand`;
-    this.http.post(apiUrl,data).pipe(catchError(this.error)).subscribe(data=>{
+    this.http.post(apiUrl,data).subscribe(data=>{
       result = data;
     });
-    console.log('En service' + data);
     return data;
   }
 
   updateBrand(data: any):Observable<any>{
     let apiUrl = `${this.endpoint}/api/Brand`;
-    return this.http.put(apiUrl,data).pipe(catchError(this.error));
+    return this.http.put(apiUrl,data);
   }
 
   deleteBrand(code:string):Observable<any>{
@@ -46,14 +45,4 @@ export class BrandService {
     return this.http.delete<boolean>(apiUrl);
   }
 
-  error(error: HttpErrorResponse){
-    let errorMessage = '';
-    if(error.error instanceof ErrorEvent){
-      errorMessage = error.error.message
-    }else{
-      errorMessage = `Codigo error: ${error.status} mensaje : ${error.message}`
-    }
-    console.log(errorMessage);
-    return throwError(()=> {return errorMessage});
-  }
 }

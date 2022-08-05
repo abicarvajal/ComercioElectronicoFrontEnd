@@ -1,0 +1,87 @@
+<ng-container *ngIf="products.length > 0; else noData">
+    <!-- <button type="button" class="btn btn-success" (click)="openModalAdd(contentAdd)">Add Products</button> -->
+    <div class="style_cards">
+        <div class="card" *ngFor="let product of products">
+            <div class="card-header">
+                Product {{product.name}}
+            </div>
+            <div class="card-body flex-column">
+                <p>
+                    <b>Description: </b>
+                    {{product.description}}
+                </p>
+                <p>
+                    <b>Stock:</b>
+                    {{product.stock}}
+                </p>
+                <p>
+                    <b>Price: </b>
+                    $ {{product.price}}
+                </p>
+                <form id="brandForm" [formGroup]="form" (ngSubmit)="add(product.id,quantity.value)" class="buttons">
+                    <label for="quantity">Quantity:</label>
+                    <input style="width: 100px;" type="number" formControlName="quantity" id="quantity" name="quantity" class="form-control" #quantity>
+                    <button type="submit" class="btn btn-info">Add to Cart</button>
+                    <div class="botton-alerts" *ngIf="form.controls['quantity'].invalid && (form.controls['quantity'].dirty || form.controls['quantity'].touched)">
+                        <small class="text-danger" *ngIf="form.controls['quantity'].errors?.['required']">
+                            Quantity is required!
+                        </small>
+                        <small class="text-danger" *ngIf="form.controls['quantity'].errors?.['min']">
+                            Quantity must be greater than 0!
+                        </small>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<ng-template #noData>
+    <div class="jumbotron">
+        <h1 class="display-4">You can't continue!</h1>
+        <p class="lead">Please, verify you are logged in</p>
+    </div>
+</ng-template>
+
+<ng-container *ngIf="items.length>0">
+    <h1>Details</h1>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Code</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items">
+            <th scope="row">1</th>
+            <td>{{item.code}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.price}}</td>
+          </tr>
+        </tbody>
+      </table>
+</ng-container>
+
+<ng-container *ngIf="items.length>0">
+    <div class="delivery">
+        <h1>Delivery Method Options</h1>
+        <label for="delivery">Delivery Method:</label>
+        <select class="form-control" >
+            <option *ngFor="let delivery of deliveries"
+                [value]="delivery.code"
+                name="deliverySelection"
+                id="deliverySelection"
+                #deliverySelection>
+            {{delivery.description}}
+            </option>
+        </select>
+    </div>
+</ng-container>
+<br>
+<button type="button" class="btn btn-success" *ngIf="items.length>0" (click)="buy()" data-toggle="modal" data-target="#exampleModal">Buy now!</button>

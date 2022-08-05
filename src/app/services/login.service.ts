@@ -13,12 +13,14 @@ export class LoginService {
     this.endpoint = endpoint;
   }
 
-  getToken(data:any):void{
+  getToken(data:any):any{
     let apiUrl = `${this.endpoint}/api/Token`;
+    let result;
     this.http.post(apiUrl,data,{responseType: 'text'}).pipe(catchError(this.error)).subscribe(data=>{
-      console.log(data);
+      result = data;
       localStorage.setItem('token',data);
     });
+    return result;
   }
 
   error(error: HttpErrorResponse){

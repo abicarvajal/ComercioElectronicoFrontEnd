@@ -1,1 +1,112 @@
-<p>product-type works!</p>
+<ng-container *ngIf="productTypes.length > 0; else noData">
+    <button type="button" class="btn btn-success" (click)="openAddModal(contentAdd)">Add product type</button>
+    <div class="style_cards">
+        <div class="card" *ngFor="let productType of productTypes">
+            <div class="card-header">
+                Product Type {{productType.code}}
+            </div>
+            <div class="card-body">
+                Description {{productType.description}}
+                <br>
+                <br>
+                <button type="button" class="btn btn-primary" (click)="editProducType(productType.code,content)">Edit</button>
+                <button type="button" class="btn btn-danger" (click)="openDialog(productType.code)">Delete</button>                
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<ng-template #noData>
+    <div class="jumbotron">
+        <h1 class="display-4">No product types to show!</h1>
+        <p class="lead">Please, verify you are logged in</p>
+    </div>
+</ng-template>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Product type update</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div class="center_form">
+            <form id="brandForm" [formGroup]="formulario" (ngSubmit)="updateProductType()">
+                <div class="form-group">
+                    <label for="code">Code:</label>
+                    <input type="text" formControlName="code" id="code" class="form-control"/>
+                    <div *ngIf="formulario.controls['code'].invalid && (formulario.controls['code'].dirty || formulario.controls['code'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['code'].errors?.['required']">
+                            Code is required!
+                        </small>
+                        <small class="text-danger" *ngIf="formulario.controls['code'].errors?.['maxlength']">
+                            Max length: {{formulario.controls['code'].errors?.['maxlength'].requiredLength}}
+                        </small>
+                    </div>
+                </div>
+          
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <input type="text" formControlName="description" id="description" class="form-control"/>
+                    <div *ngIf="formulario.controls['description'].invalid && (formulario.controls['description'].dirty || formulario.controls['description'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['description'].errors?.['required']">
+                            Description is required!
+                        </small>
+                        <small class="text-danger" *ngIf="formulario.controls['description'].errors?.['pattern']">
+                            Only alphanumeric characters allow!
+                        </small>
+                    </div>
+          
+                </div>
+                <br>
+            <div>
+              <button class="btn btn-secondary" type="button" (click)="modal.close('Save click')">Cancel</button>
+              <button class="btn btn-primary" type="submit">Send</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #contentAdd let-modalAdd>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add Product Type</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modalAdd.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div class="center_form">
+            <form id="brandForm" [formGroup]="formulario" (ngSubmit)="addProductType()">
+                <div class="form-group">
+                    <label for="code">Code:</label>
+                    <input type="text" formControlName="code" id="code" class="form-control"/>
+                    <div *ngIf="formulario.controls['code'].invalid && (formulario.controls['code'].dirty || formulario.controls['code'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['code'].errors?.['required']">
+                            Code is required!
+                        </small>
+                        <small class="text-danger" *ngIf="formulario.controls['code'].errors?.['maxlength']">
+                            Max length: {{formulario.controls['code'].errors?.['maxlength'].requiredLength}}
+                        </small>
+                    </div>
+                </div>
+          
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <input type="text" formControlName="description" id="description" class="form-control"/>
+                    <div *ngIf="formulario.controls['description'].invalid && (formulario.controls['description'].dirty || formulario.controls['description'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['description'].errors?.['required']">
+                            Description is required!
+                        </small>
+                        <small class="text-danger" *ngIf="formulario.controls['description'].errors?.['pattern']">
+                            Only alphanumeric characters allow!
+                        </small>
+                    </div>
+          
+                </div>
+                <br>
+            <div>
+              <button class="btn btn-secondary" type="button" (click)="modalAdd.close('Save click')">Cancel</button>
+              <button class="btn btn-primary" type="submit">Send</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</ng-template>

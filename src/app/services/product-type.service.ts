@@ -27,7 +27,7 @@ export class ProductTypeService {
   createProductType(data: any):Observable<any>{
     let result;
     let apiUrl = `${this.endpoint}/api/ProductType`;
-    this.http.post(apiUrl,data).pipe(catchError(this.error)).subscribe(data=>{
+    this.http.post(apiUrl,data).subscribe(data=>{
       result = data;
     });
     console.log('En service' + data);
@@ -36,23 +36,12 @@ export class ProductTypeService {
 
   updateProductType(data: any):Observable<any>{
     let apiUrl = `${this.endpoint}/api/ProductType`;
-    return this.http.put(apiUrl,data).pipe(catchError(this.error));
+    return this.http.put(apiUrl,data);
   }
 
   deleteProductType(code:string):Observable<any>{
     let apiUrl = `${this.endpoint}/api/ProductType?id=${code}`;
     return this.http.delete<boolean>(apiUrl);
-  }
-
-  error(error: HttpErrorResponse){
-    let errorMessage = '';
-    if(error.error instanceof ErrorEvent){
-      errorMessage = error.error.message
-    }else{
-      errorMessage = `Codigo error: ${error.status} mensaje : ${error.message}`
-    }
-    console.log(errorMessage);
-    return throwError(()=> {return errorMessage});
   }
 
 }

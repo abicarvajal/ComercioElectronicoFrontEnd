@@ -1,15 +1,17 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpParams} from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { Params } from '@angular/router';
+import { Observable } from 'rxjs';
 import { BASE_URL } from '../models/constants';
 import { ProductDto } from '../models/product';
+import { ProductTypeDto } from '../models/productType';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  endpoint:string = ''
+  endpoint:string = '';
 
   constructor(private http: HttpClient, @Inject(BASE_URL) endpoint:string) {
     this.endpoint = endpoint;
@@ -27,31 +29,24 @@ export class ProductService {
   createProduct(data: any):Observable<any>{
     let result;
     let apiUrl = `${this.endpoint}/api/Product`;
-    this.http.post(apiUrl,data).pipe(catchError(this.error)).subscribe(data=>{
+    this.http.post(apiUrl,data).subscribe(data=>{
       result = data;
     });
-    console.log('En service' + data);
+    console.log('En service' + result);
     return data;
   }
 
-  updateProduct(data: any):Observable<any>{
+  updateProduct(data: any, code:string):Observable<any>{
+    const params = new HttpParams()
+      .set('id', code);
     let apiUrl = `${this.endpoint}/api/Product`;
-    return this.http.put(apiUrl,data).pipe(catchError(this.error));
+    return this.http.put(apiUrl,data,{params});
   }
 
   deleteProduct(code:string):Observable<any>{
-    let apiUrl = `${this.endpoint}/api/Product?id=${code}`;
-    return this.http.delete<boolean>(apiUrl);
-  }
-
-  error(error: HttpErrorResponse){
-    let errorMessage = '';
-    if(error.error instanceof ErrorEvent){
-      errorMessage = error.error.message
-    }else{
-      errorMessage = `Codigo error: ${error.status} mensaje : ${error.message}`
-    }
-    console.log(errorMessage);
-    return throwError(()=> {return errorMessage});
+    const params = new HttpParams()
+      .set('id', code);
+    let apiUrl = `${this.endpoint}/api/Product`;
+    return this.http.delete<boolean>(apiUrl,{params});
   }
 }

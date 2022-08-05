@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from '../../services/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar',
@@ -10,7 +11,7 @@ import { LoginService } from '../../services/login.service';
 })
 export class NavBarComponent implements OnInit {
   formulario!: FormGroup;
-  constructor(private fb: FormBuilder, private modalService: NgbModal, private loginSrv: LoginService) { }
+  constructor(private fb: FormBuilder, private modalService: NgbModal, private loginSrv: LoginService, private router: Router) { }
 
   ngOnInit(): void {
     this.buildForm();
@@ -31,7 +32,8 @@ export class NavBarComponent implements OnInit {
     if(this.formulario.invalid) {
       return;
     }
-    console.log(this.formulario.getRawValue());
-    this.loginSrv.getToken(this.formulario.getRawValue());
+    if(this.loginSrv.getToken(this.formulario.getRawValue())!=''){
+      this.router.navigateByUrl('/');
+    }
   }
 }

@@ -1,1 +1,229 @@
-<p>product works!</p>
+<ng-container *ngIf="products.length > 0; else noData">
+    <button type="button" class="btn btn-success" (click)="openModalAdd(contentAdd)">Add Products</button>
+    <div class="style_cards">
+        <div class="card" *ngFor="let product of products">
+            <div class="card-header">
+                Product {{product.name}}
+            </div>
+            <div class="card-body flex-column">
+                <p>
+                    <b>Description: </b>
+                    {{product.description}}
+                </p>
+                <p>
+                    <b>Stock:</b>
+                    {{product.stock}}
+                </p>
+                <p>
+                    <b>Price: </b>
+                    $ {{product.price}}
+                </p>
+                <div class="buttons">
+                    <button type="button" class="btn btn-primary" (click)="editProduct(product.id,content)">Edit</button>
+                    <button type="button" class="btn btn-danger" (click)="openDialog(product.id)">Delete</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<ng-template #noData>
+    <div class="jumbotron">
+        <h1 class="display-4">No products to show!</h1>
+        <p class="lead">Please, verify you are logged in</p>
+    </div>
+</ng-template>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Product update</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div class="center_form">
+            <form id="brandForm" [formGroup]="formulario" (ngSubmit)="updateProduct()">
+
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" formControlName="name" id="name" class="form-control"/>
+                    <div *ngIf="formulario.controls['name'].invalid && (formulario.controls['name'].dirty || formulario.controls['name'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['name'].errors?.['required']">
+                            Name is required!
+                        </small>
+                        <small class="text-danger" *ngIf="formulario.controls['name'].errors?.['maxlength']">
+                            Max length: {{formulario.controls['name'].errors?.['maxlength'].requiredLength}}
+                        </small>
+                    </div>
+                </div>
+          
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <input type="text" formControlName="description" id="description" class="form-control"/>
+                    <div *ngIf="formulario.controls['description'].invalid && (formulario.controls['description'].dirty || formulario.controls['description'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['description'].errors?.['required']">
+                            Description is required!
+                        </small>
+                        <small class="text-danger" *ngIf="formulario.controls['description'].errors?.['pattern']">
+                            Only alphanumeric characters allow!
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="number" formControlName="price" id="price" class="form-control"/>
+                    <div *ngIf="formulario.controls['price'].invalid && (formulario.controls['price'].dirty || formulario.controls['price'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['price'].errors?.['required']">
+                            Price is required!
+                        </small>
+                        <!-- <small class="text-danger" *ngIf="formulario.controls['price'].errors?.['min']">
+                            Insert a value distict of 0
+                        </small> -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="productyTypeId">Product Type Id:</label>
+                    <!-- <input type="text" formControlName="productyTypeId" id="productyTypeId" class="form-control"/>-->
+                    <select name="productyTypeId" id="productyTypeId" class="form-control">
+                        <option *ngFor="let productType of productTypes" 
+                            [value]="productType.code">
+                        {{productType.code}}
+                        </option>
+                    </select>
+                    <div *ngIf="formulario.controls['productyTypeId'].invalid && (formulario.controls['productyTypeId'].dirty || formulario.controls['productyTypeId'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['productyTypeId'].errors?.['required']">
+                            Product Type id is required!
+                        </small>
+                    </div> 
+                </div>
+
+                <div class="form-group">
+                    <label for="brandId">Brand Id:</label>
+                    <!-- <input type="text" formControlName="brandId" id="brandId" class="form-control"/> -->
+                    
+                    <select name="brandId" id="brandId" class="form-control">
+                        <option *ngFor="let brand of brands" 
+                            [value]="brand.code">
+                        {{brand.code}}
+                        </option>
+                    </select>
+                    <div *ngIf="formulario.controls['brandId'].invalid && (formulario.controls['brandId'].dirty || formulario.controls['brandId'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['brandId'].errors?.['required']">
+                            Brand id is required!
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="stock">Stock:</label>
+                    <input type="number" formControlName="stock" id="stock" class="form-control"/>
+                    <div *ngIf="formulario.controls['stock'].invalid && (formulario.controls['stock'].dirty || formulario.controls['stock'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['stock'].errors?.['required']">
+                            Stock is required!
+                        </small>
+                        <!-- <small class="text-danger" *ngIf="formulario.controls['stock'].errors?.['pattern']">
+                            Only numeric characters allow!
+                        </small> -->
+                    </div>
+                </div>
+                <br>
+            <div>
+              <button class="btn btn-secondary" type="button" (click)="modal.close('Save click')">Cancel</button>
+              <button class="btn btn-primary" type="submit">Send</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #contentAdd let-modalAdd>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add Product</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modalAdd.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div class="center_form">
+            <form id="brandForm" [formGroup]="formulario" (ngSubmit)="addProduct()">
+
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" formControlName="name" id="name" class="form-control"/>
+                    <div *ngIf="formulario.controls['name'].invalid && (formulario.controls['name'].dirty || formulario.controls['name'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['name'].errors?.['required']">
+                            Name is required!
+                        </small>
+                        <small class="text-danger" *ngIf="formulario.controls['name'].errors?.['maxlength']">
+                            Max length: {{formulario.controls['name'].errors?.['maxlength'].requiredLength}}
+                        </small>
+                    </div>
+                </div>
+          
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <input type="text" formControlName="description" id="description" class="form-control"/>
+                    <div *ngIf="formulario.controls['description'].invalid && (formulario.controls['description'].dirty || formulario.controls['description'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['description'].errors?.['required']">
+                            Description is required!
+                        </small>
+                        <small class="text-danger" *ngIf="formulario.controls['description'].errors?.['pattern']">
+                            Only alphanumeric characters allow!
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="number" formControlName="price" id="price" class="form-control"/>
+                    <div *ngIf="formulario.controls['price'].invalid && (formulario.controls['price'].dirty || formulario.controls['price'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['price'].errors?.['required']">
+                            Price is required!
+                        </small>
+                        <small class="text-danger" *ngIf="formulario.controls['price'].errors?.['min']">
+                            Insert a value distict of 0
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="productyTypeId">Product Type Id:</label>
+                    <input type="text" formControlName="productyTypeId" id="productyTypeId" class="form-control"/>
+                    <div *ngIf="formulario.controls['productyTypeId'].invalid && (formulario.controls['productyTypeId'].dirty || formulario.controls['productyTypeId'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['productyTypeId'].errors?.['required']">
+                            Product Type Id is required!
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="brandId">Brand Id:</label>
+                    <input type="text" formControlName="brandId" id="brandId" class="form-control"/>
+                    <div *ngIf="formulario.controls['brandId'].invalid && (formulario.controls['brandId'].dirty || formulario.controls['brandId'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['brandId'].errors?.['required']">
+                            Brand id is required!
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="stock">Stock:</label>
+                    <input type="number" formControlName="stock" id="stock" class="form-control"/>
+                    <div *ngIf="formulario.controls['stock'].invalid && (formulario.controls['stock'].dirty || formulario.controls['stock'].touched)">
+                        <small class="text-danger" *ngIf="formulario.controls['stock'].errors?.['required']">
+                            Stock is required!
+                        </small>
+                        <small class="text-danger" *ngIf="formulario.controls['stock'].errors?.['pattern']">
+                            Only numeric characters allow!
+                        </small>
+                    </div>
+                </div>
+                <br>
+            <div>
+              <button class="btn btn-secondary" type="button" (click)="modalAdd.close('Save click')">Cancel</button>
+              <button class="btn btn-primary" type="submit">Send</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</ng-template>

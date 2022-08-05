@@ -25,7 +25,6 @@ export class BrandComponent implements OnInit {
         this.brands = response;
       }
     )
-    this.buildForm();
   }
 
   buildForm():void{
@@ -37,8 +36,8 @@ export class BrandComponent implements OnInit {
 
   buildFormAdd():void{
     this.formulario = this.fb.group({
-      code: [this.selectedBrand.code=null, [Validators.required, Validators.maxLength(4)]],
-      description: [this.selectedBrand.description='',[Validators.required, Validators.pattern(/^[a-zA-Z0-0-\s]+$/)]]
+      code: ['', [Validators.required, Validators.maxLength(4)]],
+      description: ['',[Validators.required, Validators.pattern(/^[a-zA-Z0-0-\s]+$/)]]
     });
   }
 
@@ -51,10 +50,9 @@ export class BrandComponent implements OnInit {
         this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
       }
     )
-    
   }
 
-  updateBrand(content:any) {
+  updateBrand() {
     if(this.formulario.invalid) {
       return;
     }
@@ -68,7 +66,7 @@ export class BrandComponent implements OnInit {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
   }
 
-  addBrands(content:any){
+  addBrands(){
     if(this.formulario.invalid) {
       return;
     }

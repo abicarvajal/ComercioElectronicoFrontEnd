@@ -8,7 +8,6 @@ import { ProductComponent } from './components/product/product.component';
 import { ProductTypeComponent } from './components/product-type/product-type.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { TestComponent } from './components/test/test.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatStepperModule} from '@angular/material/stepper';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -23,6 +22,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { DefaultErrorComponent } from './components/default-error/default-error.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { OrderComponent } from './components/order/order.component';
 
 @NgModule({
   declarations: [
@@ -32,10 +32,10 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     ProductTypeComponent,
     NavBarComponent,
     FooterComponent,
-    TestComponent,
     HomeComponent,
     DialogComponent,
-    DefaultErrorComponent
+    DefaultErrorComponent,
+    OrderComponent
   ],
   imports: [
     BrowserModule,

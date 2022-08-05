@@ -6,7 +6,7 @@
                 Brand {{brand.code}}
             </div>
             <div class="card-body">
-                Description {{brand.description}}
+                Description: {{brand.description}}
                 <br>
                 <br>
                 <button type="button" class="btn btn-primary" (click)="editBrand(brand.code, content)">Edit</button>
@@ -16,7 +16,12 @@
     </div>
 </ng-container>
 
-<ng-template #noData>No brands!</ng-template>
+<ng-template #noData>
+    <div class="jumbotron">
+        <h1 class="display-4">No brands to show!</h1>
+        <p class="lead">Please, verify you are logged in</p>
+    </div>
+</ng-template>
 
 <ng-template #content let-modal>
     <div class="modal-header">
@@ -25,7 +30,7 @@
     </div>
     <div class="modal-body">
         <div class="center_form">
-            <form id="brandForm" [formGroup]="formulario" (ngSubmit)="updateBrand(content)">
+            <form id="brandForm" [formGroup]="formulario" (ngSubmit)="updateBrand()">
                 <div class="form-group">
                     <label for="code">Code:</label>
                     <input type="text" formControlName="code" id="code" class="form-control"/>
@@ -62,14 +67,14 @@
     </div>
   </ng-template>
 
-  <ng-template #contentAdd let-modalAdd>
+<ng-template #contentAdd let-modalAdd>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Add Brand</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="modalAdd.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
         <div class="center_form">
-            <form id="brandForm" [formGroup]="formulario" (ngSubmit)="addBrands(contentAdd)">
+            <form id="brandForm" [formGroup]="formulario" (ngSubmit)="addBrands()">
                 <div class="form-group">
                     <label for="code">Code:</label>
                     <input type="text" formControlName="code" id="code" class="form-control"/>
@@ -104,9 +109,4 @@
             </form>
         </div>
     </div>
-  </ng-template>
-  
-  
-  <hr>
-  
-  <!-- <pre>{{ closeResult }}</pre> -->
+</ng-template>

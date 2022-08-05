@@ -5,6 +5,7 @@ import { ProductTypeComponent } from './components/product-type/product-type.com
 import { BrandComponent } from './components/brand/brand.component';
 import { HomeComponent } from './components/home/home.component';
 import { DefaultErrorComponent } from './components/default-error/default-error.component';
+import { OrderComponent } from './components/order/order.component';
 
 const routes: Routes = [
   {path:'', component: HomeComponent},
@@ -12,7 +13,7 @@ const routes: Routes = [
   {path:'product-type', component: ProductTypeComponent},
   {path:'brand', component: BrandComponent},
   {path:'not-found', component: DefaultErrorComponent},
-
+  {path:'shop', component: OrderComponent},
 ];
 
 @NgModule({
