@@ -1,10 +1,8 @@
-import { HttpClient, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Params } from '@angular/router';
 import { Observable } from 'rxjs';
 import { BASE_URL } from '../models/constants';
 import { ProductDto } from '../models/product';
-import { ProductTypeDto } from '../models/productType';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +10,7 @@ import { ProductTypeDto } from '../models/productType';
 export class ProductService {
 
   endpoint:string = '';
+  headers = new HttpHeaders().set('Content-Type','application/json');
 
   constructor(private http: HttpClient, @Inject(BASE_URL) endpoint:string) {
     this.endpoint = endpoint;
@@ -32,7 +31,6 @@ export class ProductService {
     this.http.post(apiUrl,data).subscribe(data=>{
       result = data;
     });
-    console.log('En service' + result);
     return data;
   }
 

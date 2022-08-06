@@ -123,9 +123,9 @@
                         <small class="text-danger" *ngIf="formulario.controls['stock'].errors?.['required']">
                             Stock is required!
                         </small>
-                        <!-- <small class="text-danger" *ngIf="formulario.controls['stock'].errors?.['pattern']">
-                            Only numeric characters allow!
-                        </small> -->
+                        <small class="text-danger" *ngIf="formulario.controls['stock'].errors?.['min']">
+                            Only value greater than 0 is allow!
+                        </small>
                     </div>
                 </div>
                 <br>
@@ -213,8 +213,8 @@
                         <small class="text-danger" *ngIf="formulario.controls['stock'].errors?.['required']">
                             Stock is required!
                         </small>
-                        <small class="text-danger" *ngIf="formulario.controls['stock'].errors?.['pattern']">
-                            Only numeric characters allow!
+                        <small class="text-danger" *ngIf="formulario.controls['stock'].errors?.['min']">
+                            Only value greater than 0 allow!
                         </small>
                     </div>
                 </div>

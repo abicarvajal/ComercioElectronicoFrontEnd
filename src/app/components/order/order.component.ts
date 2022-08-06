@@ -23,10 +23,13 @@ export class OrderComponent implements OnInit {
 
   cartItemOrder!: CreateOrderDto ;
 
-  stateOfBuy: boolean = false;
   currentDialog = null;
 
   form!: FormGroup;
+  deliveryMethodCode:string = '';
+  enabledButton: boolean = false;
+  total!:number;
+  totalProducts!: number;
 
   constructor(private productSrv:ProductService, private deliverySrv:DeliveryMethodService, private orderSrv: OrderService, private modalService: NgbModal, private router: Router, private fb: FormBuilder) { }
 
@@ -44,6 +47,16 @@ export class OrderComponent implements OnInit {
     this.form = this.fb.group({
       quantity:['',[Validators.required,Validators.min(1)]]
     });
+  }
+
+  //Get the delivery method on change
+  onSelected(deliveryMethod:string){
+    if(deliveryMethod!='Pick delivery method'){
+      this.deliveryMethodCode = deliveryMethod;
+      this.enabledButton = !this.enabledButton;
+    }else{
+      this.enabledButton = !this.enabledButton;
+    }
   }
 
   add(productId:string, quantity:string){
@@ -81,17 +94,32 @@ export class OrderComponent implements OnInit {
       )
     }
 
+
     
   }
 
+  get getTotal(){
+    this.total=0;
+    for (let i = 0; i < this.items.length; i++) {
+      this.total += this.items[i].price * this.items[i].quantity;
+    }
+    return this.total;
+  }
+
+  get getTotalProducts(){
+    return this.items.length;
+  }
+
+  // Save the order
   buy(){
     let code = this.makeid(6);
-    this.cartItemOrder = {code:code,deliveryMethodId:'001',itemsToCart:this.cartItems}
+    this.cartItemOrder = {code:code,deliveryMethodId:this.deliveryMethodCode,itemsToCart:this.cartItems}
     if(this.orderSrv.createOrder(this.cartItemOrder)){
       this.open();
     }
   }
 
+  // Generate an ID (PK) for the order 
   makeid(length:number) {
     var result           = '';
     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -102,6 +130,7 @@ export class OrderComponent implements OnInit {
     return result;
   }
 
+  //Open modal of confirmation and redirect to home page
   open() {
     const modalRef = this.modalService.open(NgbdModalContent);
     modalRef.componentInstance.purchaseStatus = 'Purchase Done!';

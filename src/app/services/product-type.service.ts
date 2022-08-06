@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { BASE_URL } from '../models/constants';
@@ -9,7 +9,7 @@ import { ProductTypeDto } from '../models/productType';
 })
 export class ProductTypeService {
   endpoint:string = ''
-
+  headers = new HttpHeaders().set('Content-Type','application/json');
   constructor(private http: HttpClient, @Inject(BASE_URL) endpoint:string) {
     this.endpoint = endpoint;
   }

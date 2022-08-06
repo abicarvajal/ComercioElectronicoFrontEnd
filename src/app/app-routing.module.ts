@@ -6,6 +6,7 @@ import { BrandComponent } from './components/brand/brand.component';
 import { HomeComponent } from './components/home/home.component';
 import { DefaultErrorComponent } from './components/default-error/default-error.component';
 import { OrderComponent } from './components/order/order.component';
+import { InfoBuyComponent } from './components/info-buy/info-buy.component';
 
 const routes: Routes = [
   {path:'', component: HomeComponent},
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path:'brand', component: BrandComponent},
   {path:'not-found', component: DefaultErrorComponent},
   {path:'shop', component: OrderComponent},
+  {path:'how-to-buy', component: InfoBuyComponent},
 ];
 
 @NgModule({

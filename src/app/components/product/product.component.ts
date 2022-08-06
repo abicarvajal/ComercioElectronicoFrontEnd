@@ -9,6 +9,8 @@ import { ProductTypeDto } from '../../models/productType';
 import { ProductTypeService } from 'src/app/services/product-type.service';
 import { Brand } from '../../models/brand';
 import { BrandService } from '../../services/brand.service';
+import { Router } from '@angular/router';
+import { IsFocusableConfig } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-product',
@@ -22,7 +24,7 @@ export class ProductComponent implements OnInit {
   brands: Brand[]=[];
   formulario!: FormGroup;
 
-  constructor(private productSrv: ProductService, private brandSrv: BrandService, private productTypeSrv:ProductTypeService, private modalService: NgbModal, private fb: FormBuilder, public dialog: MatDialog) { }
+  constructor(private productSrv: ProductService, private brandSrv: BrandService, private productTypeSrv:ProductTypeService, private modalService: NgbModal, private fb: FormBuilder, public dialog: MatDialog, private router:Router) { }
 
   ngOnInit(): void {
     this.productSrv.getProducts().subscribe(response => 
@@ -45,7 +47,7 @@ export class ProductComponent implements OnInit {
       price: [this.selectedProduct.price,[Validators.required]],
       productyTypeId: [this.selectedProduct.productyTypeId,],
       brandId: [this.selectedProduct.brandId,],
-      stock: [this.selectedProduct.stock,[Validators.required]]
+      stock: [this.selectedProduct.stock,[Validators.required,Validators.min(1)]]
     });
   }
 
@@ -56,7 +58,7 @@ export class ProductComponent implements OnInit {
       price: ['',[Validators.required,Validators.min(0)]],
       productyTypeId: ['',Validators.required],
       brandId: ['',Validators.required],
-      stock: ['',[Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]]
+      stock: ['',[Validators.required, Validators.min(1)]]
     });
   }
 
@@ -76,12 +78,14 @@ export class ProductComponent implements OnInit {
     let instance = dialogRef.componentInstance;
     instance.type = "Product";
     instance.code = code;
-    console.log('dialogRef',dialogRef);
   }
 
   openModalAdd(content:any){
     this.buildFormAdd();
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
+    modalRef.closed.subscribe(response => {
+      this.router.navigateByUrl('');
+    })
   }
 
   addProduct(){

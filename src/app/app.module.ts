@@ -23,6 +23,8 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { DefaultErrorComponent } from './components/default-error/default-error.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { OrderComponent } from './components/order/order.component';
+import { CarouselComponent } from './components/carousel/carousel.component';
+import { InfoBuyComponent } from './components/info-buy/info-buy.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { OrderComponent } from './components/order/order.component';
     HomeComponent,
     DialogComponent,
     DefaultErrorComponent,
-    OrderComponent
+    OrderComponent,
+    CarouselComponent,
+    InfoBuyComponent
   ],
   imports: [
     BrowserModule,
